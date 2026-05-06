@@ -1,0 +1,73 @@
+{
+  "repo": "harbor-net-dns-gate",
+  "language": "TypeScript",
+  "category": "Networking",
+  "goal": "Design a TypeScript verification harness for dns systems, covering policy evaluation, deny and allow fixtures, and failure-oriented tests.",
+  "review_model": {
+    "terms": [
+      "packet span",
+      "retry pressure",
+      "route drift",
+      "socket risk"
+    ],
+    "lanes": [
+      "ship",
+      "watch",
+      "hold"
+    ],
+    "score": "signal * 2 + slack + confidence - drag * 3",
+    "purpose": "surface the domain-specific cases that need the most careful review"
+  },
+  "cases": [
+    {
+      "name": "baseline",
+      "focus": "packet span",
+      "signal": 64,
+      "slack": 20,
+      "drag": 31,
+      "confidence": 50,
+      "score": 105,
+      "lane": "watch"
+    },
+    {
+      "name": "stress",
+      "focus": "retry pressure",
+      "signal": 71,
+      "slack": 37,
+      "drag": 18,
+      "confidence": 71,
+      "score": 196,
+      "lane": "ship"
+    },
+    {
+      "name": "edge",
+      "focus": "route drift",
+      "signal": 75,
+      "slack": 23,
+      "drag": 14,
+      "confidence": 51,
+      "score": 182,
+      "lane": "ship"
+    },
+    {
+      "name": "recovery",
+      "focus": "socket risk",
+      "signal": 88,
+      "slack": 26,
+      "drag": 9,
+      "confidence": 59,
+      "score": 234,
+      "lane": "ship"
+    },
+    {
+      "name": "stale",
+      "focus": "packet span",
+      "signal": 82,
+      "slack": 24,
+      "drag": 22,
+      "confidence": 48,
+      "score": 170,
+      "lane": "ship"
+    }
+  ]
+}

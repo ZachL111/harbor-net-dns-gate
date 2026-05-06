@@ -1,69 +1,40 @@
 # harbor-net-dns-gate
 
-`harbor-net-dns-gate` explores networking in TypeScript. The repository keeps the core rule set compact, then surrounds it with examples that show how the decisions move.
-
-## Harbor Net DNS Gate Notes
-
-The quickest review path is the verifier first, then the fixtures, then the operations note. That order makes it easy to see whether the code, data, and explanation still agree.
-
-## Feature Notes
-
-- Includes extended examples for retry behavior, including `recovery` and `degraded`.
-- Documents policy decisions tradeoffs in `docs/operations.md`.
-- Runs locally with a single verification command and no external credentials.
-- Stores project constants and verification metadata in `metadata/project.json`.
-- Adds a repository audit script that checks structure before running the language verifier.
+`harbor-net-dns-gate` is a TypeScript project in networking. Its focus is to design a TypeScript verification harness for dns systems, covering policy evaluation, deny and allow fixtures, and failure-oriented tests.
 
 ## Why This Exists
 
-This project keeps the domain idea close to the tests. That makes it useful as a reference implementation, a small experiment, or a starting point for a more specialized tool.
+The project exists to keep a narrow engineering decision visible and testable. For this repo, that decision is how packet span and route drift should influence a review result.
 
-## Code Tour
+## Harbor Net DNS Gate Review Notes
 
-- `src`: primary implementation
-- `tests`: verification harness
-- `fixtures`: compact golden scenarios
-- `examples`: expanded scenario set
-- `metadata`: project constants and verification metadata
-- `docs`: operations and extension notes
-- `scripts`: local verification and audit commands
-- `package.json`: Node package scripts
+`recovery` and `baseline` are the cases worth reading first. They show the optimistic and cautious ends of the fixture.
 
-## Implementation Notes
+## Capabilities
 
-The project is organized around a compact model rather than a large framework. Inputs are scored, classified, and checked against golden fixtures. The constants live in code and are mirrored in metadata so documentation drift is easy to catch. The TypeScript project keeps types close to the model and compiles before running its checks.
+- `fixtures/domain_review.csv` adds cases for packet span and retry pressure.
+- `metadata/domain-review.json` records the same cases in structured form.
+- `config/review-profile.json` captures the read order and the two review questions.
+- `examples/harbor-net-dns-walkthrough.md` walks through the case spread.
+- The TypeScript code includes a review path for `socket risk` and `packet span`.
+- `docs/field-notes.md` explains the strongest and weakest cases.
 
-## Try It
+## Implementation Shape
+
+The fixture data drives the tests. The code stays thin, while `metadata/domain-review.json` and `config/review-profile.json` explain what each case is meant to protect.
+
+The added TypeScript path is deliberately direct, with fixtures doing most of the explaining.
+
+## Local Usage
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify.ps1
 ```
 
-This runs the language-level build or test path against the compact fixture set.
+## Verification
 
-## Example Scenarios
-
-The examples are meant to be readable before they are exhaustive. They cover enough variation to show how latency and risk can pull a decision below the threshold.
-
-## Tests
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File scripts/audit.ps1
-```
-
-The audit command checks repository structure and README constraints before it delegates to the verifier.
-
-## Boundaries
-
-The scoring model is simple by design. More domain-specific behavior should be added through explicit adapters or extra fixture classes rather than hidden constants.
+That command is also the regression path. It verifies the domain cases and catches mismatches between the CSV, metadata, and code.
 
 ## Roadmap
 
-- Add malformed input fixtures so the failure path is as visible as the happy path.
-- Split the scoring constants into a typed configuration object and validate it before use.
-- Add a comparison mode that shows how decisions change when one signal is adjusted.
-- Add one more networking fixture that focuses on a malformed or borderline input.
-
-## Local Setup
-
-Use a normal shell with TypeScript available on `PATH`. The verifier is written as a PowerShell script because the portfolio was assembled on Windows.
+The fixture set is small enough to audit by hand. The next useful expansion is malformed input coverage, not extra surface area.
