@@ -64,3 +64,9 @@ node dist/tests/policy.test.js
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-harbor-net-dns-detail.ps1
 
 node dist/tests/domainReview.test.js
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-harbor-net-dns-properties.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-harbor-net-dns-golden.ps1
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

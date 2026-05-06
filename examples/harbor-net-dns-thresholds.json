@@ -1,0 +1,17 @@
+{
+  "repo": "harbor-net-dns-gate",
+  "thresholds": {
+    "signal": 2,
+    "slack": 2,
+    "confidence": 1,
+    "drag": 5,
+    "ship": 167,
+    "watch": 109
+  },
+  "terms": [
+    "packet span",
+    "retry pressure",
+    "route drift",
+    "socket risk"
+  ]
+}
